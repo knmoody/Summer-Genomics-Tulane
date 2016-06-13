@@ -103,7 +103,7 @@ bbcp -zv -r "blumlab@eeb-globus.tulane.edu:/Volumes/LaCie/Jacana_GBS_Raw_Reads" 
 
 -v stands for verbose 
 -r is for recursive (copies all files in the directory)
--z I am not so sure about (Graham?) if this isn't working for you, maybe take this out.
+-z this is used in this case to transfer files from another ip (i.e. from the mac tower), but you wouldn't need it if you were sitting at the tower instead I believe..
 
 You should get some output like this (each line comes in slowly)
 
