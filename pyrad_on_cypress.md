@@ -22,7 +22,8 @@ wget -q dereneaton.com/downloads/simRADs.zip
 unzip simRADs.zip
 ```
 
-* Next, we're going to copy the folder over to your directory on cypress. Just replace eenbody with your username.
+* Next, we're going to copy the folder over to your directory on cypress. Just replace eenbody with your username. 
+* You can also transfer the zipped file if unzipping it did not create a new directory, and then unzip that file in your cypress directory.
 
 ```bash
 scp ./simRADs/ eenbody@cypress1.tulane.edu:/home/eenbody
