@@ -119,18 +119,20 @@ File Jacana_Raw_Reads/Jacana GBS Raw Reads/C6RL0ANXX_3_fastq.gz created; 1745359
 5 files copied at effectively 71.7 MB/s\
 ```
 
-I'm not sure how long mine took, but at least half an hour I think. Now you are ready to use cypress to dig through this dataset!
+* I'm not sure how long mine took, but at least half an hour I think. Now you are ready to use cypress to dig through this dataset!
 
-Now we need to create a new params file
+Now, we're ready to run pyrad. 
+
+* First, we need to create a new params file
 
 ```bash
 module load pyrad
 pyrad -n
 ```
 
-You should see a new file, params.txt. 
+* You should see a new file, params.txt. 
 
-For step 1, demultiplexing, we need to edit this params file to read our fastq file for plate 1 and provide it with a barcodes file. 
+For step 1, demultiplexing, we need to edit this params file to read our fastq file for plate 1 and provide it with a barcodes file.
 
 ```bash
 ==** parameter inputs for pyRAD version 3.0.66  **======================== affected step ==
@@ -150,7 +152,7 @@ rad                       ## 11. Datatype: rad,gbs,pairgbs,pairddrad,(others:see
 c88d6m4p3                 ## 14. Prefix name for final output (no spaces)         (s7)
 ```
 
-Now, we need to create a script to run step one. I've called my script pyrad_1.srun
+Now, we need to create a script to run step one. I've called my script pyrad_1.srun.
 
 ```bash
 #!/bin/bash
@@ -166,4 +168,4 @@ module load pyrad
 pyrad -p params.txt -s 1
 ```
 
-
+Continue running step 1 for plates 2 and 3 by modifying your params.t file and running new scripts or editing the first one.
