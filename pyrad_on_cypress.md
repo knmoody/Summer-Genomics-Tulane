@@ -126,7 +126,44 @@ Now we need to create a new params file
 ```bash
 module load pyrad
 pyrad -n
+```
 
+You should see a new file, params.txt. 
 
+For step 1, demultiplexing, we need to edit this params file to read our fastq file for plate 1 and provide it with a barcodes file. 
+
+```bash
+==** parameter inputs for pyRAD version 3.0.66  **======================== affected step ==
+./                        ## 1. Working directory                                 (all)
+./C6RL0ANXX_1_fastq.gz              ## 2. Loc. of non-demultiplexed files (if not line 18)  (s1)
+./jacana1.barcodes              ## 3. Loc. of barcode file (if not line 18)             (s1)
+vsearch                   ## 4. command (or path) to call vsearch (or usearch)    (s3,s6)
+muscle                    ## 5. command (or path) to call muscle                  (s3,s7)
+TGCAG                     ## 6. Restriction overhang (e.g., C|TGCAG -> TGCAG)     (s1,s2)
+20                         ## 7. N processors (parallel)                           (all)
+6                         ## 8. Mindepth: min coverage for a cluster              (s4,s5)
+4                         ## 9. NQual: max # sites with qual < 20 (or see line 20)(s2)
+.88                       ## 10. Wclust: clustering threshold as a decimal        (s3,s6)
+rad                       ## 11. Datatype: rad,gbs,pairgbs,pairddrad,(others:see docs)(all)
+4                         ## 12. MinCov: min samples in a final locus             (s7)
+3                         ## 13. MaxSH: max inds with shared hetero site          (s7)
+c88d6m4p3                 ## 14. Prefix name for final output (no spaces)         (s7)
+```
+
+Now, we need to create a script to run step one. I've called my script pyrad_1.srun
+
+```bash
+#!/bin/bash
+#SBATCH --qos=normal
+#SBATCH --job-name=sara_pyrad_s1.1 ### Job Name
+#SBATCH --nodes=1             ### Node count required for the job
+#SBATCH --ntasks-per-node=20   ### Nuber of tasks to be launched per Node
+#SBATCH --output=jacanas1.1output.out
+#SBATCH --error=jacana1error.err
+
+module load pyrad
+
+pyrad -p params.txt -s 1
+```
 
 
