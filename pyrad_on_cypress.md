@@ -121,6 +121,12 @@ File Jacana_Raw_Reads/Jacana GBS Raw Reads/C6RL0ANXX_3_fastq.gz created; 1745359
 
 I'm not sure how long mine took, but at least half an hour I think. Now you are ready to use cypress to dig through this dataset!
 
+Now we need to create a new params file
+
+```bash
+module load pyrad
+pyrad -n
+
 
 
 
