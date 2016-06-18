@@ -202,7 +202,7 @@ c88d6m4p3                 ## 14. Prefix name for final output (no spaces)       
 ```
 
 
-#Now, because we are on the cluster, we need to create a job script to run step one. I've called my script pyrad_1.srun.
+* Now, because we are on the cluster, we need to create a job script to run step one. I've called my script pyrad_1.srun.
 
 ```bash
 #!/bin/bash
