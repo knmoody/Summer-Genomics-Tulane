@@ -228,4 +228,26 @@ mv jacana1.barcodes jacana1old.barcodes
 mv jacana1new.barcodes jacana1.barcodes
 ```
 
-* Continue running step 1 for plates 2 and 3 by modifying your params.t file and running new scripts or editing the first one.
+* We also modified our script: 
+
+```bash
+#!/bin/bash
+#SBATCH --qos=normal
+#SBATCH --time=1-0
+#SBATCH --verbose
+#SBATCH --job-name=sara_pyrad_s1.1 ### Job Name
+#SBATCH --nodes=1             ### Node count required for the job
+#SBATCH --ntasks-per-node=20   ### Number of tasks to be launched per Node
+#SBATCH --output=jacanas1.2output.out
+#SBATCH --error=jacana2error.err
+
+date
+pwd
+
+module load pyrad
+
+pyrad -p params.txt -s 1
+pyrad_1.srun (END) 
+```
+
+* Continue running step 1 for plates 2 and 3 by modifying your params.txt file and running new scripts or editing the first one.
