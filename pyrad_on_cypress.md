@@ -220,4 +220,12 @@ pyrad -p params.txt -s 1
 
 * Ok so this hasn't actually worked yet, we're note sure why! Might try changing qos=long
 
+* One issue could have been the barcodes file, since it was copied from excel and still has tabs instead of spaces. Let's replace tabs and then rename the files with the following commands:
+
+```bash
+cat jacana1.barcodes | sed -e 's/['$'\011'' ]\+/ /' | tee jacana1new.barcodes
+mv jacana1.barcodes jacana1old.barcodes
+mv jacana1new.barcodes jacana1.barcodes
+```
+
 * Continue running step 1 for plates 2 and 3 by modifying your params.t file and running new scripts or editing the first one.
