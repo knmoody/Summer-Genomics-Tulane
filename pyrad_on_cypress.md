@@ -95,13 +95,14 @@ We are going to use pyRAD to call SNPs on Sara L's dataset from her work with ja
 
 ```bash
 cd /lustre/project/jk
-mkdir Jacana_Raw_Reads
+mkdir pyrad-zdiazmar
+cd pyrad-zdiazmar
 ```
 
 * Now that we are here, lets transfer those files. They are large files and total ~60gb, so using the "scp" command is a bit unwieldy as it was built for smaller files. Instead we will use bcbp. You will want to specify the login information of your local computer. The following example is for the Blum lab login.
 
 ```bash
-bbcp -zv -r "blumlab@eeb-globus.tulane.edu:/Volumes/LaCie/Jacana_GBS_Raw_Reads" Jacana_Raw_Reads/
+bbcp -zv -r "blumlab@eeb-globus.tulane.edu:/Volumes/LaCie/Jacana_GBS_Raw_Reads" ./
 ```
 
 -v stands for verbose 
