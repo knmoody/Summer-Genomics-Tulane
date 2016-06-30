@@ -229,26 +229,36 @@ mv jacana1.barcodes jacana1old.barcodes
 mv jacana1new.barcodes jacana1.barcodes
 ```
 
-* We also modified our script: 
+* We also modified our script so that we can run step 1 on each plates without overwriting the output stats and fastq folders: 
 
 ```bash
 #!/bin/bash
 #SBATCH --qos=normal
 #SBATCH --time=1-0
-#SBATCH --verbose
-#SBATCH --job-name=sara_pyrad_s1.1 ### Job Name
+#SBATCH --verbose    ###        Verbosity logs error information into the error file
+#SBATCH --job-name=jacana_pyrad_s1.1 ### Job Name
 #SBATCH --nodes=1             ### Node count required for the job
 #SBATCH --ntasks-per-node=20   ### Number of tasks to be launched per Node
-#SBATCH --output=jacanas1.1output.out
-#SBATCH --error=jacana1error.err
+#SBATCH --output=jacanas.1.1.output.out
+#SBATCH --error=jacanas.1.1.error.err
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user=slipshut@tulane.edu
 
 date
 pwd
 
+mkdir w$SLURM_JOBID
+cp params1.1.txt w$SLURM_JOBID/params.txt
+ln C6RL0ANXX_1_fastq.gz w$SLURM_JOBID
+ln jacana1.barcodes w$SLURM_JOBID
+cd w$SLURM_JOBID
+
+
 module load pyrad
 
 pyrad -p params.txt -s 1
-pyrad_1.srun (END) 
+
+date (END) 
 ```
 
-* Continue running step 1 for plates 2 and 3 by modifying your params.txt file and running new scripts or editing the first one.
+* Continue running step 1 for plates 2 and 3 by making new params.txt files and running new scripts or editing the first one
