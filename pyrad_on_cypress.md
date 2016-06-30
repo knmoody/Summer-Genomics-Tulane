@@ -238,8 +238,8 @@ mv jacana1new.barcodes jacana1.barcodes
 #SBATCH --job-name=sara_pyrad_s1.1 ### Job Name
 #SBATCH --nodes=1             ### Node count required for the job
 #SBATCH --ntasks-per-node=20   ### Number of tasks to be launched per Node
-#SBATCH --output=jacanas1.2output.out
-#SBATCH --error=jacana2error.err
+#SBATCH --output=jacanas1.1output.out
+#SBATCH --error=jacana1error.err
 
 date
 pwd
