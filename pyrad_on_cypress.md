@@ -13,13 +13,13 @@ ssh eenbody@cypress1.tulane.edu
 
 ###Useful unix commands
 ```bash
-* cd .. 	#goes back to the previous directory
-* mv 	#use this command to rename a file, you must include the name of the file followed by the new name
-*rm –r [folder] 	#to delete folders with contents, MUST GIVE A FOLDER, be careful! Can delete important folders, like root!
-*zcat 		#takes a compressed file to decompress .gz and run through cat
-*grep 	#searches gnu regular expressions, will have to use ^ to find something at beginning of line and $ to find at the end of the line – very powerful – you can use this to find all the reads that didn’t work 
-*zgrep   #can use this to also look up things – for example look up a barcode in a fastq file 
-*control z #then type# bg 	#use this when you want to push a command into the back ground – it will eventually pop out a number when the command is finished 
+cd .. 	#goes back to the previous directory
+mv 	#use this command to rename a file, you must include the name of the file followed by the new name
+rm –r [folder] 	#to delete folders with contents, MUST GIVE A FOLDER, be careful! Can delete important folders, like root!
+zcat 		#takes a compressed file to decompress .gz and run through cat
+grep 	#searches gnu regular expressions, will have to use ^ to find something at beginning of line and $ to find at the end of the line – very powerful – you can use this to find all the reads that didn’t work 
+zgrep   #can use this to also look up things – for example look up a barcode in a fastq file 
+control z #then type# bg 	#use this when you want to push a command into the back ground – it will eventually pop out a number when the command is finished 
 ```
 
 ###pyRAD Tutorial on cypress
@@ -276,15 +276,15 @@ date (END)
 
 * We were able to successfully run step 1 of pyrad using the new script and new params.txt files. After this finished we explored the outputs.
 ```bash
-*ls fastq/ | wc –l 	#tells you how many files you have in this fastq folder
-*wc -l jacana1.barcodes 	#tells you how many lines are in this file (95 is ok, 96 is ok too – depends on how computer is counting lines)
+ls fastq/ | wc –l 	#tells you how many files you have in this fastq folder
+wc -l jacana1.barcodes 	#tells you how many lines are in this file (95 is ok, 96 is ok too – depends on how computer is counting lines)
 ```
 
-*once a job is submitted you will have a new folder for that job – you want to keep the right folder, rename it and get rid of old ones
+*once a job is submitted you will have a new folder for that job – you want to keep the right folder, rename it (using the mv command) and get rid of old ones
 ```bash
-ls w[folder number] 	*this should show all the inputs and outputs from this job including a stats and fastq
+ls w[folder number] 	#this should show all the inputs and outputs from this job including a stats and fastq
 
-du --si w[folder number] 	*this is another way to see if it worked, it shows you what’s in the folder and how much space it takes up
+du --si w[folder number] 	#this is another way to see if it worked, it shows you what’s in the folder and how much space it takes up
 ```
 
 *We renamed our successful job output folders and went into them to explore the fastq and stats outputs
