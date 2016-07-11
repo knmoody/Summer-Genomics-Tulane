@@ -280,16 +280,17 @@ ls fastq/ | wc –l 	#tells you how many files you have in this fastq folder
 wc -l jacana1.barcodes 	#tells you how many lines are in this file (95 is ok, 96 is ok too – depends on how computer is counting lines)
 ```
 
-*once a job is submitted you will have a new folder for that job – you want to keep the right folder, rename it (using the mv command) and get rid of old ones
+* Once a job is submitted you will have a new folder for that job – you want to keep the right folder, rename it (using the mv command) and get rid of old ones
 ```bash
 ls w[folder number] 	#this should show all the inputs and outputs from this job including a stats and fastq
 
 du --si w[folder number] 	#this is another way to see if it worked, it shows you what’s in the folder and how much space it takes up
 ```
 
-*We renamed our successful job output folders and went into them to explore the fastq and stats outputs
+* We renamed our successful job output folders and went into them to explore the fastq and stats outputs
 
-*We saw that line 19 (maxM)in the params file sets levels of more or les stringency – the default is 1 (one mismatch), but you can change this
+* We saw that line 19 (maxM)in the params file sets levels of more or les stringency – the default is 1 (one mismatch), but you can change this
+
 ```bash
 cat stats/s1.sorting.txt | column –t | head 	#This will show you the beginning of the file with number of reads, etc in columns
 ```
