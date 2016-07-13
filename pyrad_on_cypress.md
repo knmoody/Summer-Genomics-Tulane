@@ -137,9 +137,7 @@ File Jacana_Raw_Reads/Jacana GBS Raw Reads/C6RL0ANXX_3_fastq.gz created; 1745359
 
 Now, we're ready to run pyrad. 
 
-####Running pyrad with a full dataset
-
-####*Step 1*
+###Step 1
 
 * First, we need to create a new params file. You will also need the proper barcode files from Sara copied to your working folder on cypress. You can use scp to do this if you get them on your home computer (see example of using scp to copy to cypress above).
 
@@ -292,7 +290,7 @@ SL_161                AACGCACATT  AACGAACATT  18723
 SL_161                AACGCACATT  AACGCACATG  18034
 ```
 
-####*Step 2*
+###Step 2
 
 * Alright so now that we have three directories that contain fastq folder containing all of our de-multiplexed reads, we have to move these all into one directory. There is almost certainly some easy automated way of doing this, but I went for brute force. 
 
@@ -343,7 +341,7 @@ cp -Rv --backup=existing --suffix=_plate3 w249136_GBS_Params_S1.3/fastq/*.gz ste
    * Line 21: This gives you several options for filtering based on quality or quality and adapters. We have adapters (when wouldn't you?) so we want to filter by both NQUAL+adapters, so this should be set to 1. Mine was already set this way, but you may need to set it yourself. I am not sure what 2 would do, but I bet its in the general tutorial. 
    * Line 32: This allows you to set the minimum length of reads you want to keep after trimming has been done. The default in the GBS tutorial is 50, so you should set it as such. Another good place to tweek when exploring your data. 
 
-*Next I did some small tweeking to the job script (nano pyrad_2.srun), which now looks like this:
+* Next I did some small tweeking to the job script (nano pyrad_2.srun), which now looks like this:
 
 ```bash
 #!/bin/bash
