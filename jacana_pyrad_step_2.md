@@ -1,5 +1,7 @@
 ###Step 2
 
+####*Consolidating results from step 1 into one directory*
+
 * Alright so now that we have three directories that contain fastq folder containing all of our de-multiplexed reads, we have to move these all into one directory. There is almost certainly some easy automated way of doing this, but I went for brute force. 
 
 * The first thing I did make a new folder called step_2. Then I copied in the params file into it and rename it just params.txt (because we will only need one from here on out). Also copy in one of the job script files and call it step 2. 
@@ -11,7 +13,9 @@ cp params1.1.txt step_2/params.txt
 cp pyrad_1.1.srun step_2/pyrad_2.srun
 ```
 
-* What I did next is probably not the best way to do it, but here was my workflow:
+* What I did next is probably not the best way to do it, but it is described below. Graham offered an alternative in the next chunk.
+
+####*Option one for copying files*
 
 ```bash
 cp -Rv --backup=existing --suffix=_plate3 w249134_GBS_Params_S1.1/fastq/*.gz step_2/fastq/
@@ -25,7 +29,7 @@ cp -Rv --backup=existing --suffix=_plate3 w249136_GBS_Params_S1.3/fastq/*.gz ste
    * --backup=existing says to do something with existing files
    * --suffix adds on a custom string to the end of any files that are duplicates in the destination directory
 
-* Now, this is a poor mans solution, becuase now I have several files that end in .fq.gz_plate3 and every file needs to end in .fq.gz. So Rather than try to solve this problem and do it different, I just used mv to change the name of those repeats. Examples below:
+* Now, this is a poor mans solution, becuase now I have several files that end in .fq.gz_plate3 and every file needs to end in .fq.gz. So Rather than try to solve this problem and do it different, I just used mv to change the name of those repeats (all of this in my new setup_2/fastq). Examples below:
 
 ```bash
   mv blank_R1.fq.gz_plate3 blank_R1_plate3.fq.gz
@@ -36,8 +40,43 @@ cp -Rv --backup=existing --suffix=_plate3 w249136_GBS_Params_S1.3/fastq/*.gz ste
   mv SL_161_R1.fq.gz_plate3 SL_161_R1_plate3.fq.gz
 ```
 
+####*Option two for copying files*
+
+* Here is Graham's solution. This will search all of the working folders you made on cypress and pump out all the duplicates it finds.
+
+```bash
+ls w24*/fastq/* fastq/* | sed -e 's%.*/%%'|sort|uniq -c |sed -e '/^ \+1/ d'
+```
+
+* And here is the result
+
+```bash
+ 3 blank_R1.fq.gz
+      2 LSUMZ_25287_R1.fq.gz
+      2 MJM_7661_R1.fq.gz
+      2 MJM_8247_R1.fq.gz
+      2 SEL_STRI_25_R1.fq.gz
+      2 SL_161_R1.fq.gz
+```
+
+* Great now we know which files have duplicates. Now we need to rename them. First gives you the directory where the file is, then you use mv to rename that file where it is. Do this for every file that is duplicated. Note, your directory names will differ from that below. 
+
+```bash
+find w24*/fastq/ -name LSUMZ_25287_R1.fq.gz 
+w243517/fastq/LSUMZ_25287_R1.fq.gz #output
+mv w243517/fastq/LSUMZ_25287_R1.fq.gz w243517/fastq/LSUMZ_25287.3_R1.fq.gz
+```
+
+* Once every repeat is renamed, you can copy them over. Graham suggested using a hardlink here, rather than using cp. This means they will only phyiscally be in one place.
+
+```bash
+ln w24*/fastq/* fastq/* step2/fastq
+```
+
+####*Setting up the job script file*
 
 * Yay! Now we have a fastq folder filled with all the de multiplexed files! I am sure there was a better way to do this...
+
 * Next, lets make a new job script. While preparing this, I noted that I could not make a hard link to the fastq directory (just cant do this with directories). Rather than spending time trying to find an alternative, I just altered the params.txt slightly (using nano params.txt). On line 18 you can specify the location of the directory where all your demultiplexed files are. Here is what that line looks like for me. 
 
 ```bash
