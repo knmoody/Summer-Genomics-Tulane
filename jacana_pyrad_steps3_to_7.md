@@ -2,7 +2,7 @@
 
 * These steps largely use similar parameters to run and slight variations in how to run each step are a bit difficult to grasp (for me at this point). So, we can pretty quickly run through them.
 
-*Navigate back to your working folder and make a new directory for step 3 and copy in the old job file and open it for editing. 
+* Navigate back to your working folder and make a new directory for step 3 and copy in the old job file and open it for editing. 
 
 ```bash
 cd /lustre/project/jk/Jacana
