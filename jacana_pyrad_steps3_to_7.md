@@ -13,7 +13,7 @@ nano pyrad_3.srun
 ```
 
 * The most effective way I found was to edit the job file to make a directory for edits (a directory made last step), then make a local
-copy (using 'ln') of all the contents of that folder. Make your .srun file look like mine. Here are kep places I edited the step 2 job
+copy (using 'ln') of all the contents of that folder. Make your .srun file look like mine. Here are key places I edited the step 2 job
 submission file.
    * change job name to _s3
    * change output name to .3
