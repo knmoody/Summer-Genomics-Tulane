@@ -18,8 +18,8 @@ cp pyrad_1.1.srun step_2/pyrad_2.srun
 ####*Option one for copying files*
 
 ```bash
-cp -Rv --backup=existing --suffix=_plate3 w249134_GBS_Params_S1.1/fastq/*.gz step_2/fastq/
-cp -Rv --backup=existing --suffix=_plate3 w249135_GBS_Params_S1.2/fastq/*.gz step_2/fastq/
+cp -Rv --backup=existing --suffix=_plate1 w249134_GBS_Params_S1.1/fastq/*.gz step_2/fastq/
+cp -Rv --backup=existing --suffix=_plate2 w249135_GBS_Params_S1.2/fastq/*.gz step_2/fastq/
 cp -Rv --backup=existing --suffix=_plate3 w249136_GBS_Params_S1.3/fastq/*.gz step_2/fastq/
 ```
 
