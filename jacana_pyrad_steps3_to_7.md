@@ -3,11 +3,13 @@
 * These steps largely use similar parameters to run and slight variations in how to run each step are a bit difficult to grasp (for me at this point). So, we can pretty quickly run through them.
 
 * Navigate back to your working folder and make a new directory for step 3 and copy in the old job file and open it for editing. 
+* Also, do a few tricks to make your life a little easier here.
 
 ```bash
-cd /lustre/project/jk/Jacana
+cd /lustre/project/jk/Jacana_pyRAD
 mkdir step_3
 cp step_2/pyrad_2.srun ./step_3/pyrad_3.srun
+ln -s $PWD/step_2/w252439_GBS_Params_S2_33Line20/edits step_3/
 cd step_3
 nano pyrad_3.srun
 ```
@@ -18,8 +20,8 @@ submission file.
    * change job name to _s3
    * change output name to .3
    * change error name to .3
-   * After the command `cd w$SLURM_JOBID, I made a directory and made a natural copy to my step 2 results edits folder.
-   so what you would do here is change my path to lead to your own step_2/edits directory. 
+   * After the command `mkdir w$SLURM_JOBID`, I made a directory and made a natural copy to my step 2 results edits folder.
+   which I soft linked to `edits` in the current directory. 
 
 ```bash
 #!/bin/bash
@@ -38,6 +40,8 @@ date
 pwd
 
 mkdir w$SLURM_JOBID
+mkdir w$SLURM_JOBID/edits
+ln edits/*.edit w$SLURM_JOBID/edits
 
 cat <<EOF > w$SLURM_JOBID/params.txt
 ==** parameter inputs for pyRAD version 3.0.66  **======================== affected step ==
@@ -83,9 +87,6 @@ c85m4p3                 ## 14. Prefix name for final output (no spaces)         
 EOF
 
 cd w$SLURM_JOBID
-mkdir edits
-
-ln /lustre/project/jk/Jacana_pyRAD/step_2/w252439_GBS_Params_S2_33Line20/edits/*.edit ./edits
 
 module load pyrad
 
@@ -96,29 +97,47 @@ date
 
 * Now run step three using sbatch!
 
-* Steps 4-7 seem like they could be molded into one step, but I am sure there is a reason they are not. Nevertheless, I would just make
+* Steps 4-7 seem like they could be molded into one step, but I am sure there is a reason they are not.  
+(Why don't we just do them all at once!). Nevertheless, I would just make
 a directory called step_4_to_7 or something, and do all your last 4 steps here. As above, use cp to copy in your .srun file from your
-step 3 directory into your new directory. Give it a new name and edit is so that you make a new directory called clust.85 (if you used my
-params) than has a ln to the clust.85 folder from step 3. For each step 4,5,6,7 you'll have to edit this line to link to the results from
-the previous step. As an example, here is my job submission file for step 4:
+step 3 directory into your new directory, with a new name.  
+Make sure to soft link to the clust.85 (or clust.60, clust.75, etc) in your new directory.
+
+
+```bash
+cd /lustre/project/jk/Jacana_pyRAD
+mkdir step_4_to_7
+cp step_3/pyrad_3.srun ./step_4_to_7/pyrad_4.srun
+ln -s $PWD/step_3/w253012_GBS_Params_Default/clust.85 step_4_to_7/
+cd step_4_to_7
+nano pyrad_4.srun
+```
+
+* Edit the srun file. You will want to parameterize the Wclust value, so that you will grab the correct directory if try multiple values so that you make a new directory called `clust.${Wclust}` (if you used my
+params) that has a ln to the clust.85 folder from step 3. Go ahead and do step 4,5,6,7  all in a row.  
+As an example, here is my job submission file for step 4:
 
 ```bash
 !/bin/bash
 #SBATCH --qos=normal
 #SBATCH --time=1-0
 #SBATCH --verbose    ###        Verbosity logs error information into the error file
-#SBATCH --job-name=jacana_pyrad_s4 ### Job Name
+#SBATCH --job-name=jacana_pyrad_s4567 ### Job Name
 #SBATCH --nodes=1             ### Node count required for the job
 #SBATCH --ntasks-per-node=20   ### Number of tasks to be launched per Node
-#SBATCH --output=jacanas.4.output.out
-#SBATCH --error=jacanas.4.error.err
+#SBATCH --output=jacanas.4567.output.out
+#SBATCH --error=jacanas.4567.error.err
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=eenbody@tulane.edu
 
 date
 pwd
 
+Wclust=85
+
 mkdir w$SLURM_JOBID
+mkdir w$SLURM_JOBID/clust.${Wclust}
+ln clust.${Wclust}/* w$SLURM_JOBID/clust.${Wclust}/
 
 cat <<EOF > w$SLURM_JOBID/params.txt
 ==** parameter inputs for pyRAD version 3.0.66  **======================== affected step ==
@@ -131,7 +150,7 @@ TGCAG                     ## 6. Restriction overhang (e.g., C|TGCAG -> TGCAG)   
 20                        ## 7. N processors (parallel)                           (all)
 6                         ## 8. Mindepth: min coverage for a cluster              (s4,s5)
 4                         ## 9. NQual: max # sites with qual < 20 (or see line 20)(s2)
-.85                       ## 10. Wclust: clustering threshold as a decimal        (s3,s6)
+.${Wclust}                       ## 10. Wclust: clustering threshold as a decimal        (s3,s6)
 gbs                       ## 11. Datatype: rad,gbs,pairgbs,pairddrad,(others:see docs)(all)
 4                         ## 12. MinCov: min samples in a final locus             (s7)
 3                         ## 13. MaxSH: max inds with shared hetero site          (s7)
@@ -164,13 +183,16 @@ c85m4p3                 ## 14. Prefix name for final output (no spaces)         
 EOF
 
 cd w$SLURM_JOBID
-mkdir clust.85
-
-ln /lustre/project/jk/Jacana_pyRAD/step_3/w253012_GBS_Params_Default/clust.85/* ./clust.85
 
 module load pyrad
-
+date
 pyrad -p params.txt -s 4
+date
+pyrad -p params.txt -s 5
+date
+pyrad -p params.txt -s 6
+date
+pyrad -p params.txt -s 7
 
 date
 ```
