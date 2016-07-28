@@ -101,7 +101,7 @@ date
 (Why don't we just do them all at once!). Nevertheless, I would just make
 a directory called step_4_to_7 or something, and do all your last 4 steps here. As above, use cp to copy in your .srun file from your
 step 3 directory into your new directory, with a new name.  
-Make sure to soft link to the clust.85 (or clust.60, clust.75, etc) in your new directory.
+Make sure to soft link to the clust.85 (or clust.60, clust.75, etc) and to the stats folder in your new directory.
 
 
 ```bash
@@ -109,6 +109,7 @@ cd /lustre/project/jk/Jacana_pyRAD
 mkdir step_4_to_7
 cp step_3/pyrad_3.srun ./step_4_to_7/pyrad_4.srun
 ln -s $PWD/step_3/w253012_GBS_Params_Default/clust.85 step_4_to_7/
+ln -s $PWD/step_3/w253012_GBS_Params_Default/stats step_4_to_7/
 cd step_4_to_7
 nano pyrad_4.srun
 ```
@@ -138,6 +139,8 @@ Wclust=85
 mkdir w$SLURM_JOBID
 mkdir w$SLURM_JOBID/clust.${Wclust}
 ln clust.${Wclust}/* w$SLURM_JOBID/clust.${Wclust}/
+mkdir w$SLURM_JOBID/stats
+ln stats/* w$SLURM_JOBID/stats/
 
 cat <<EOF > w$SLURM_JOBID/params.txt
 ==** parameter inputs for pyRAD version 3.0.66  **======================== affected step ==
